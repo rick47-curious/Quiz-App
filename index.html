@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Homepage</title>
+    <!-- Adding external css files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/_utilities.css">
+</head>
+<body>
+    <!-- Home page of the Quiz App -->  
+    <!-- Main container -->
+    <div class="container">
+        <!-- Header container containing Greetings,logo, and instruction -->
+        <div id="header">
+            <!-- Logo area -->
+            <img id="main-logo" src="./images/Logo.jpg" alt="TestbookLogo">
+            <!-- Greetings below -->
+            <h1 class="section-header">Hello user!</h1>
+            <h3 class="info">Enter your name to continue the Quiz</h3>
+        </div>
+        <!-- Container for input text area for entering  name of the user-->
+        <div id="inputarea">
+            <!-- Grouping the below elements -->
+            <div>
+                <form action="">
+                    <input type="text" id="username" placeholder="ENTER YOUR NAME">
+                    <button type="submit" class="regular-btn">ENTER</butto>
+                </form>
+            </div>
+            <p class="light-info">You'll have 10 seconds to answer each questions</p>
+        </div>
+        <!-- Category container -->
+        <div id="category" style="display:none">
+            <h1 class="section-header">Select Category</h1>
+            <br>
+            <div class="grp-btns">
+                <button id="section1">Pipes And Cisterns</button>
+                <button id="section2">Probablity</button>
+                <button id="section3">Problem on Ages</button>
+                <button id="section4">Profit And Loss</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Quiz Area container -->
+    <div class="quiz-container" style="display:none">
+        <!-- Heading -->
+        <h3 class="info"></h3>
+        <div class="header">
+            <!-- Timer area -->
+            <div id="timer"><span></span></div>
+            <!-- Score tracker -->
+            <div id="tracker">
+                <label>SCORE:<span id="score">0</span></label>               
+            </div>
+        </div>
+        <!-- Question text area with question no -->
+        <div class="questionarea">
+            <div class="questionNo"></div>
+            <p id="questionText"></p>
+        </div>
+        <!-- Option buttons -->
+        <div class="grp-btns">
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button id="next">Next Question</button>
+        </div>        
+    </div>
+    <!-- Result page container -->
+    <div class="result-container" style="display:none">
+        <h1 class="section-header">Quiz Result</h1>
+        <p class="heading"><span class="bold-text"></span><span class="light-info">&nbsp;your result is:</span></p>
+        <p class="light-info">Total time Taken:&nbsp;<span class="bold-text"></span>&nbsp;seconds</p>
+        <p class="light-info">Total Question:&nbsp;<span class="bold-text">10</span></p>
+        <p class="light-info">Attempt:&nbsp;<span class="bold-text"></span></p>
+        <p class="light-info">Correct:&nbsp;<span class="bold-text"></span></p>
+        <p class="light-info">Wrong:&nbsp;<span class="bold-text"></span></p>
+        <p class="light-info">Percentage:&nbsp;<span class="bold-text"></span></p>
+        <div>
+            <button class="regular-btn">Start Again</button>
+            <button class="regular-btn">Go To Home</button>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+/* ---------Quiz HomePage------- */
+
+/* Maintain the size of the container */
+.container{
+    width:48vw;
+    margin:5rem auto;
+    border:4px solid var(--shadow-color);
+    border-radius:0.5rem;
+}
+
+/* Size of each individual container inside the main container */
+.container div{
+    width:auto;
+    height:10rem;
+    margin-bottom: 1.2rem;
+}
+/* Styling the logo image */
+.container #header img{
+    height:8rem;
+    width:8rem;
+    /* Set the Logo position */
+    position: relative;
+    left:40%;
+}
+/* Common section headers used in Homepage, result page */
+.section-header{
+    text-align: center;
+    color:var(--common-color);
+    margin-bottom: 1rem;
+}
+/* Info  headers used in Homepage, quiz page */
+.info{
+    text-align: center;
+}
+
+/* Input area style */
+#inputarea{
+    border-bottom: 2px solid var(--shadow-color);
+    height:5.5rem;
+}
+#inputarea div{
+    width:auto;
+    height:auto;
+    margin:5rem 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Input text area */
+#inputarea div #username{
+    padding:0.3rem;
+    margin-left: 2.5rem;
+    width:32rem;
+    border-radius:0.5rem;
+    border-width: 2px;
+    border-color:var(--shadow-color);
+}
+
+#username:focus{
+    outline:none;
+    outline:3px solid var(--common-color);
+}
+/* Submit button*/
+form .regular-btn{
+    background-color: var(--common-color);
+    color:var(--botton-text-color);
+    padding:0.3rem 1rem;
+    margin-left: 0.7rem;
+    border-color: var(--common-color);
+    border-radius: 0.2rem;
+}
+
+form .regular-btn:hover{
+    background-color: var(--white-color);
+    color:var(--common-color);
+}
+
+/* Light info text */
+.light-info{
+    color:var(--normal-grey);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Section category buttons */
+#category{
+    margin-bottom: 4rem;
+}
+
+#category .grp-btns{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+#category .grp-btns button{
+    height:3rem;
+    width:18rem;
+    border:3px solid var(--common-color);
+    border-radius: 0.5rem;
+    background-color: var(--pale-blue-color);
+}
+#category .grp-btns button:hover{
+    background-color: var(--common-color);
+    font-weight: 600;
+}
+
+#category .grp-btns button a{
+    text-decoration: none;
+    color:var(--result-text);
+}
+
+/* Adding responsiveness */
+@media (max-width:1448px){
+    #inputarea div #username{
+        width:22rem;
+    }
+   #category .grp-btns button{
+        width:12rem;
+    }
+
+}
+
+@media (max-width:1214px){
+    #inputarea div #username{
+        width:20rem;
+    }
+    #category .grp-btns button{
+        width:9rem;
+    }
+    .container #header img{
+        position:relative;
+        left:38%;
+    }
+
+}
+
+@media (max-width:1080px){
+    #category .grp-btns button{
+        width: 5rem;
+    }
+}
+
+@media (max-width:1047px){
+    #inputarea div #username{
+        width:15rem;
+        margin-left:2rem;
+    }
+
+    .container #header img{
+        position:relative;
+        left:35%;
+    }
+}
+
+@media (max-width:881px){
+    #inputarea div #username{
+        width:10rem;
+        margin-left: 1.5rem;
+    }
+    h3.info{
+        font-size: 1rem;
+    }
+    .light-info{
+        font-size: 1rem;
+    }
+}
+
+@media (max-width:713px){
+    #inputarea div #username{
+        width:7rem;
+        margin-left:1rem;
+    }
+    h3.info{
+        font-size: 0.8rem;
+    }
+
+    .container #header img{
+        position:relative;
+        left:32%;
+    }
+
+    .section-header{
+        font-size: 1.5rem;
+    }
+    .light-info{
+        font-size: 0.7rem;
+    }
+}
+
+@media(max-width:667px){
+    #inputarea div #username{
+        margin-left:2.5rem;
+    }
+    #inputarea div #username::placeholder{
+        font-size: 0.65rem;
+    }
+    #category .grp-btns button{
+        width:6rem;
+    }
+    form .regular-btn{
+      padding:0.2rem 0.3rem;  
+    }
+    .container #header img{
+        position:relative;
+        left:28%;
+    }
+    .container{
+        width:20rem;
+    }
+}
+
+/* -----------Quiz Page------------ */
+
+/* Header section containing the timer and score tracker */
+.quiz-container{
+    width:50vw;
+    height:80vh;
+    padding:0 3rem;
+    margin:5rem auto;
+    border:4px solid var(--shadow-color);
+    border-radius:0.5rem;
+
+}
+
+.quiz-container div{
+    width:auto;
+    height:10rem;
+    margin-bottom: 1.2rem;
+}
+.info{
+    margin:1rem;
+}
+.quiz-container .header{
+    height:auto;
+    display:flex;
+    justify-content: space-between;
+}
+/* Timer and score tracker area */
+#timer,#tracker{
+    width:1rem;
+    height:0.1rem;
+    padding:2rem;
+}
+#timer span{
+    position:relative;
+    bottom: 0.5rem;
+    right: 0.3rem;
+    font-weight: 600;
+    font-size:1rem;
+}
+#timer{
+    border-radius: 50%;
+    border:2px solid var(--common-color);
+}
+#score{
+    padding:0.3rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+/* Question area */
+/* Badge showing the question no */
+.quiz-container .questionNo{
+    height:2rem;
+    width:10rem;
+    border:2px solid var(--result-text);
+    border-radius:1.2rem;
+    
+    text-align:center;
+    font-size: 1.5rem;
+    color:var(--white-color);
+    background-color: var(--common-color);
+    position:relative;
+    left:18rem;
+    bottom:1.2rem;
+}
+/* Question text area */
+.quiz-container .questionarea{
+    border:3px solid var(--shadow-color);
+}
+
+#questionText{
+    padding:0rem 1.5rem;
+}
+/* Option buttons and next button */
+.quiz-container .grp-btns{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+.quiz-container .grp-btns button{
+    height:3rem;
+    width:18rem;
+    border:3px solid var(--common-color);
+    border-radius: 0.5rem;
+    background-color: var(--white-color);
+    margin:0.6rem;
+    border-radius: 1.2rem;
+}
+.quiz-container .grp-btns button:hover{
+    background-color: var(--white-color);
+}
+.quiz-container .grp-btns button:focus{
+    background-color: var(--common-color);
+    color:var(--white-color);
+}
+.quiz-container .grp-btns #next{
+    margin:0 5rem;
+}
+
+/* Adding Responsive behavior*/
+@media (max-width:1448px){
+    .quiz-container{
+        width:45rem;
+        height:37rem;
+    }
+    .info{
+        margin:0.2rem;
+    }
+}
+@media(max-width:1214px){
+    .quiz-container{
+        width:40rem;
+        height:37rem;
+    }
+
+    .quiz-container .grp-btns button{
+        width:15rem;
+    }
+
+    .quiz-container .questionNo{
+        position:relative;
+        left:14rem;
+        bottom:1.2rem; 
+    }
+}
+
+@media (max-width:770px){
+    .quiz-container{
+        width:30rem;
+        height:35rem;
+    }
+
+    .quiz-container .grp-btns button{
+        width:12rem;
+    }
+
+    .quiz-container .questionNo{
+        position:relative;
+        left:10rem;
+        bottom:1.2rem; 
+    }
+}
+@media (max-width:600px){
+    .quiz-container{
+        width:25rem;
+        height:35rem;
+    }
+
+    .quiz-container .grp-btns button{
+        width:10rem;
+    }
+
+    .quiz-container .questionNo{
+        position:relative;
+        left:8rem;
+        bottom:1.2rem; 
+    }
+    .questionarea #questionText{
+        font-size: 0.8rem;
+    }
+}
+
+/*-----------------Result Page------------------ */
+.result-container {
+    width:48vw;
+    margin:5rem auto;
+    border:4px solid var(--shadow-color);
+    border-radius:0.5rem;
+}
+/* Header text margin */
+.section-header{
+    margin:1rem;
+}
+/* Text style for bold type */
+.bold-text{
+    font-weight: 600;
+    color:var(--result-text);
+    text-align: center;
+}
+
+.heading{
+    color:var(--result-text);
+    text-align: center;
+}
+
+p{
+    margin-bottom:1rem;
+}
+/* Targeting the div grouping two buttons */
+.result-container div{
+    height:auto;
+    margin-bottom: 2rem;
+    display:flex;
+    justify-content: space-evenly;
+}
+.result-container div .regular-btn{
+    height:2rem;
+    padding:0rem 1rem;
+    border-radius: 1.2rem;
+    
+    color:var(--white-color);
+    background-color: var(--common-color);
+}
+/* Adding responsiveness */
+@media (max-width:1020px){
+    .result-container{
+        min-width: 25rem;
+    }
+    h1{
+        font-size: 3rem;
+    }
+    p{
+        font-size: 1rem;
+    }
+}
+@media (max-width:715px){
+    .result-container{
+        min-width: 25rem;
+    }
+    h1{
+        font-size: 3rem;
+    }
+    p{
+        font-size: 1rem;
+    }
+}

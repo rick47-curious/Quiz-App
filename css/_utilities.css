@@ -1,0 +1,15 @@
+*{
+    padding:0;
+    margin:0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+:root{
+    --common-color:#23abd9;
+    --shadow-color:#d3d9db;
+    --botton-text-color:white;
+    --pale-blue-color:#d9f7fc;
+    --result-text:black;
+    --white-color:white;
+    --normal-grey:grey;
+}
