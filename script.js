@@ -9,6 +9,7 @@ let attemptCounter = 0;
 let totalTimeSpent = 0; 
 let totalCorrectResponse = 0;
 
+let mainContainer = document.getElementsByClassName("container").item(0);
 // Capture the userinput from the Hompage
 document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
         e.preventDefault();    
@@ -41,7 +42,6 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
     }
     //Method to add score after each question
     const addScore = (score)=>{
-        console.log("score received:",score);
         let originalValue = parseInt(document.getElementById("score").innerHTML);
         document.getElementById("score").innerHTML = originalValue + score;
     }
@@ -58,12 +58,10 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
         //Total Wrong response
         document.getElementsByClassName("bold-text").item(5).innerHTML = totalWrongAttempt;
         //Total Percentage
-        const regEx = new RegExp("^.[0-9]{0,2}$")
         document.getElementsByClassName("bold-text").item(6).innerHTML = ((totalCorrectResponse/totalQuestions)*100).toString()+"%";
     }
     //Counter/Timer to count seconds elapsed per question
     const startTimer = (payload)=>{
-        console.log("Start timer triggered!");
         displayTime = setInterval(()=>{
             let timerSpan = document.getElementById("timer").getElementsByTagName("span").item(0);
             timerSpan.innerHTML = (totalTime <10)?"0"+totalTime:totalTime;
@@ -91,12 +89,14 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
     };
     const stopTimer = ()=>clearInterval(displayTime);
 
-    const validateAnswer = (payload)=>{
-        let optionButtons = document.getElementsByClassName("quiz-container").item(0).getElementsByClassName("grp-btns").item(0);
-    
-    //If option 1 is clicked
-    optionButtons.getElementsByTagName("button").item(0).addEventListener('click',()=>{
+    const validateAnswer = (payload,flag=true)=>{
+        if(flag){
+        //let optionButtons = document.getElementsByClassName("quiz-container").item(0).getElementsByClassName("grp-btns").item(0);
+        let optionButtons = document.querySelector(".quiz-container > .grp-btns");
+        //If option 1 is clicked
+        optionButtons.getElementsByTagName("button").item(0).addEventListener('click',()=>{
         //Increasing the attempt count if user selects a answer
+        
         attemptCounter+=1;
         if (optionButtons.getElementsByTagName("button").item(0).innerHTML == payload[counter].answer){
             points+=1;      
@@ -107,7 +107,7 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
         //Increasing the attempt count if user selects a answer
         attemptCounter+=1;
         if (optionButtons.getElementsByTagName("button").item(1).innerHTML == payload[counter].answer){
-            points+=1;
+            points+=1;      
         }
     });
     //If option 3 is clicked
@@ -115,7 +115,7 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
         //Increasing the attempt count if user selects a answer
         attemptCounter+=1;
         if (optionButtons.getElementsByTagName("button").item(2).innerHTML === payload[counter].answer){
-            points+=1;
+            points+=1;      
         }
 
     });
@@ -124,13 +124,15 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
         //Increasing the attempt count if user selects a answer
         attemptCounter+=1;
         if (optionButtons.getElementsByTagName("button").item(3).innerHTML === payload[counter].answer){
-            points+=1;
+            points+=1;      
         }
         });
-        //points = (points>=2)?points-1:1;
     }
-    const proceedNext = (payload)=>{
+    }
+    const proceedNext = (payload,flag=true)=>{
+        if (flag){
         counter+=1;
+        }
         addScore(points);
         //Storing the point if correct answer was received
         totalCorrectResponse = totalCorrectResponse + ((points==1)?1:0);
@@ -151,44 +153,43 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
             displayResult(totalCorrectResponse,totalWrongAttempt,totalTimeSpent,attemptCounter);
 
             document.getElementsByClassName("result-container").item(0).getElementsByClassName("regular-btn").item(1)
-            .addEventListener('click',()=>redirectToHomepage());
+            .addEventListener('click',()=>redirectToHomepage(payload));
 
             document.getElementsByClassName("result-container").item(0).getElementsByClassName("regular-btn").item(0).addEventListener("click",()=>restartQuiz(payload));
         }
         points=0; 
         totalTime = 10; 
-    }
+        }
+    
 
-    const launchQuiz = (payload)=>{
-        
+    const launchQuiz = (payload,flag=true)=>{
         //Hide the Homepage
         document.getElementsByClassName("container").item(0).style.display = "none";
         //Show the empty quiz container
         document.getElementsByClassName("quiz-container").item(0).style.display = "block";
+        //Reset the score
+        document.getElementById("score").innerHTML = "0";
         //Display first question
         displayContent(counter,payload);
         startTimer(payload);
         
         //Validate the answer chosen
+        if (flag){
         validateAnswer(payload);
+        }
         //Action upon clicking on next button
-        document.getElementById("next").addEventListener('click',()=>proceedNext(payload));    
+        document.getElementById("next").addEventListener('click',()=>proceedNext(payload,flag));    
         
-    }
-
-   
+    }  
     const redirectToHomepage = ()=>{
-        document.getElementsByClassName("result-container").item(0).style.display = "none";
-        document.getElementsByClassName("container").item(0).style.display = "block";
-        document.getElementById("category").style.display = "none";
-        
         totalTime = 10;
         counter=0;
         totalWrongAttempt = 0;
         totalCorrectResponse = 0;
         totalTimeSpent = 0;
         attemptCounter = 0;
-
+        // Reload the page
+        location.reload();
     }
 
     const restartQuiz = (payload)=>{
@@ -198,9 +199,7 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
         totalCorrectResponse = 0;
         totalTimeSpent = 0;
         attemptCounter = 0;
-        
-        launchQuiz(payload);
-
+        launchQuiz(payload,false);
     }
 
     //Payload for Pipe and Cistern section
@@ -286,7 +285,257 @@ document.getElementsByTagName("form").item(0).addEventListener('submit',(e)=>{
             "answer":"14 min 40 sec"  
         }
     ];
+    //Payload for Probability section
+    let payloadSection2 = [
+        {
+            "question":"Tickets numbered 1 to 20 are mixed up and then a ticket is drawn at random. What is the probability that the ticket drawn has a number which is a multiple of 3 or 5?",
+            "option1":"1/2",
+            "option2":"2/5",
+            "option3":"8/15",
+            "option4":"9/20",
+            "answer":"9/20"  
+        },
+        {
+            "question":"A bag contains 2 red, 3 green and 2 blue balls. Two balls are drawn at random. What is the probability that none of the balls drawn is blue?",
+            "option1":"10/21",
+            "option2":"11/21",
+            "option3":"2/7",
+            "option4":"5/7",
+            "answer":"10/21"
+        },
+        {
+            "question":"In a box, there are 8 red, 7 blue and 6 green balls. One ball is picked up randomly. What is the probability that it is neither red nor green?",
+            "option1":"1/3",
+            "option2":"3/4",
+            "option3":"7/19",
+            "option4":"8/21",
+            "answer":"9/21" 
+        },
+        {
+            "question":"What is the probability of getting a sum 9 from two throws of a dice?",
+            "option1":"1/6",
+            "option2":"1/8",
+            "option3":"1/9",
+            "option4":"1/12",
+            "answer":"1/9"  
+        },
+        {
+            "question":"Three unbiased coins are tossed. What is the probability of getting at most two heads?",
+            "option1":"3/4",
+            "option2":"1/4",
+            "option3":"3/8",
+            "option4":"7/8",
+            "answer":"7/8" 
+        },
+        {
+            "question":"Two dice are thrown simultaneously. What is the probability of getting two numbers whose product is even?",
+            "option1":"1/2",
+            "option2":"3/4",
+            "option3":"3/8",
+            "option4":"5/16",
+            "answer":"3/4" 
+        },
+        {
+            "question":"In a class, there are 15 boys and 10 girls. Three students are selected at random. The probability that 1 girl and 2 boys are selected, is:",
+            "option1":"21/46",
+            "option2":"25/117",
+            "option3":"1/50",
+            "option4":"3/25",
+            "answer":"21/46" 
+        },
+        {
+            "question":"In a lottery, there are 10 prizes and 25 blanks. A lottery is drawn at random. What is the probability of getting a prize?",
+            "option1":"1/10",
+            "option2":"2/5",
+            "option3":"2/7",
+            "option4":"5/7",
+            "answer":"2/7" 
+        },
+        {
+            "question":"From a pack of 52 cards, two cards are drawn together at random. What is the probability of both the cards being kings?",
+            "option1":"1/15",
+            "option2":"25/57",
+            "option3":"35/256",
+            "option4":"1/221",
+            "answer":"1/221" 
+        },
+        {
+            "question":"Two dice are tossed. The probability that the total score is a prime number is:",
+            "option1":"1/6",
+            "option2":"5/12",
+            "option3":"1/2",
+            "option4":"7/9",
+            "answer":"5/12" 
+        }
+    ];
+    //Payload for Problems on Ages section
+    let payloadSection3 = [
+        {
+            "question":"Father is aged three times more than his son Ronit. After 8 years, he would be two and a half times of Ronit's age. After further 8 years, how many times would he be of Ronit's age?",
+            "option1":"2 times",
+            "option2":"5/2 times",
+            "option3":"11/4 times",
+            "option4":"3 times",
+            "answer":"2 times"  
+        },
+        {
+            "question":"The sum of ages of 5 children born at the intervals of 3 years each is 50 years. What is the age of the youngest child?",
+            "option1":"4 years",
+            "option2":"8 years",
+            "option3":"10 years",
+            "option4":"None of these",
+            "answer":"4 years"
+        },
+        {
+            "question":`A father said to his son, "I was as old as you are at the present at the time of your birth". If the father's age is 38 years now, the son's age five years back was:`,
+            "option1":"14 years",
+            "option2":"19 years",
+            "option3":"33 years",
+            "option4":"38 years",
+            "answer":"14 years" 
+        },
+        {
+            "question":"A is two years older than B who is twice as old as C. If the total of the ages of A, B and C be 27, then how old is B?",
+            "option1":"7",
+            "option2":"8",
+            "option3":"9",
+            "option4":"10",
+            "answer":"10"  
+        },
+        {
+            "question":"Present ages of Sameer and Anand are in the ratio of 5 : 4 respectively. Three years hence, the ratio of their ages will become 11 : 9 respectively. What is Anand's present age in years?",
+            "option1":"24",
+            "option2":"27",
+            "option3":"40",
+            "option4":"CND",
+            "answer":"24" 
+        },
+        {
+            "question":"A man is 24 years older than his son. In two years, his age will be twice the age of his son. The present age of his son is:",
+            "option1":"14 years",
+            "option2":"18 years",
+            "option3":"20 years",
+            "option4":"22 years",
+            "answer":"22 years" 
+        },
+        {
+            "question":"Six years ago, the ratio of the ages of Kunal and Sagar was 6 : 5. Four years hence, the ratio of their ages will be 11 : 10. What is Sagar's age at present?",
+            "option1":"16 years",
+            "option2":"18 years",
+            "option3":"20 years",
+            "option4":"CND",
+            "answer":"16 years" 
+        },
+        {
+            "question":`The sum of the present ages of a father and his son is 60 years. Six years ago, father's age was five times the age of the son. After 6 years, son's age will be:`,
+            "option1":"12 years",
+            "option2":"14 years",
+            "option3":"18 years",
+            "option4":"20 years",
+            "answer":"20 years" 
+        },
+        {
+            "question":"At present, the ratio between the ages of Arun and Deepak is 4 : 3. After 6 years, Arun's age will be 26 years. What is the age of Deepak at present ?",
+            "option1":"12 years",
+            "option2":"15 years",
+            "option3":"19 and half",
+            "option4":"21 years",
+            "answer":"15 years" 
+        },
+        {
+            "question":"Sachin is younger than Rahul by 7 years. If their ages are in the respective ratio of 7 : 9, how old is Sachin?",
+            "option1":"16 years",
+            "option2":"18 years",
+            "option3":"28 years",
+            "option4":"24.5 years",
+            "answer":"24.5 years" 
+        }
+    ];
+    //Payload for Profit and loss section
+    let payloadSection4 = [
+        {
+            "question":"Alfred buys an old scooter for Rs. 4700 and spends Rs. 800 on its repairs. If he sells the scooter for Rs. 5800, his gain percent is:",
+            "option1":"32/7%",
+            "option2":"60/11%",
+            "option3":"10%",
+            "option4":"12%",
+            "answer":"60/11%"  
+        },
+        {
+            "question":"The cost price of 20 articles is the same as the selling price of x articles. If the profit is 25%, then the value of x is:",
+            "option1":"15",
+            "option2":"16",
+            "option3":"18",
+            "option4":"25",
+            "answer":"16"
+        },
+        {
+            "question":`If selling price is doubled, the profit triples. Find the profit percent.`,
+            "option1":"200/3",
+            "option2":"100",
+            "option3":"316/3",
+            "option4":"120",
+            "answer":"100" 
+        },
+        {
+            "question":"In a certain store, the profit is 320% of the cost. If the cost increases by 25% but the selling price remains constant, approximately what percentage of the selling price is the profit?",
+            "option1":"30%",
+            "option2":"70%",
+            "option3":"100%",
+            "option4":"250%",
+            "answer":"70%"  
+        },
+        {
+            "question":"A vendor bought toffees at 6 for a rupee. How many for a rupee must he sell to gain 20%?",
+            "option1":"3",
+            "option2":"4",
+            "option3":"5",
+            "option4":"6",
+            "answer":"5" 
+        },
+        {
+            "question":"The percentage profit earned by selling an article for Rs. 1920 is equal to the percentage loss incurred by selling the same article for Rs. 1280. At what price should the article be sold to make 25% profit?",
+            "option1":"Rs2000",
+            "option2":"Rs2200",
+            "option3":"Rs2400",
+            "option4":"Data inadequate",
+            "answer":"Rs2000" 
+        },
+        {
+            "question":"A shopkeeper expects a gain of 22.5% on his cost price. If in a week, his sale was of Rs. 392, what was his profit?",
+            "option1":"Rs18.20",
+            "option2":"Rs70",
+            "option3":"Rs72",
+            "option4":"Rs88.25",
+            "answer":"Rs72" 
+        },
+        {
+            "question":`A man buys a cycle for Rs. 1400 and sells it at a loss of 15%. What is the selling price of the cycle?`,
+            "option1":"Rs1090",
+            "option2":"Rs1160",
+            "option3":"Rs1190",
+            "option4":"Rs1202",
+            "answer":"Rs1190" 
+        },
+        {
+            "question":"Sam purchased 20 dozens of toys at the rate of Rs. 375 per dozen. He sold each one of them at the rate of Rs. 33. What was his percentage profit?",
+            "option1":"3.5",
+            "option2":"4.5",
+            "option3":"5.6",
+            "option4":"6.5",
+            "answer":"5.6" 
+        },
+        {
+            "question":"Some articles were bought at 6 articles for Rs. 5 and sold at 5 articles for Rs. 6. Gain percent is:",
+            "option1":"33%",
+            "option2":"33.33%",
+            "option3":"35%",
+            "option4":"44%",
+            "answer":"44%" 
+        }
+    ];
+
 document.getElementById("section1").addEventListener('click',()=>launchQuiz(payloadSection1));
-// document.getElementById("section2").addEventListener('click',launchQuiz(payloadSection1));
-// document.getElementById("section3").addEventListener('click',launchQuiz(payloadSection1));
-// document.getElementById("section4").addEventListener('click',launchQuiz(payloadSection1));
+document.getElementById("section2").addEventListener('click',()=>launchQuiz(payloadSection2));
+document.getElementById("section3").addEventListener('click',()=>launchQuiz(payloadSection3));
+document.getElementById("section4").addEventListener('click',()=>launchQuiz(payloadSection4));
